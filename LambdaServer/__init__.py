@@ -82,6 +82,7 @@ def main():
             # noinspection PyBroadException
             try:
                 r = lfunc(data, lambdaContext)
+                print("R: " + simplejson.dumps(r))
             except Exception as e:
                 print("\nOops! There was a problem in your lambda function: {}\n".format(lambdaPath))
                 print(traceback.format_exc())
@@ -89,7 +90,7 @@ def main():
                     'error': str(e)
                 }
 
-            self.wfile.write(r)
+            self.wfile.write(simplejson.dumps(r))
             self.wfile.close()
 
             print "<=== {}".format(r)
