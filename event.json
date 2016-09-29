@@ -1,0 +1,30 @@
+{
+  "session": {
+    "sessionId": "SessionId.6ab325dd-xxxx-xxxx-aee5-456cd330932a",
+    "application": {
+      "applicationId": "amzn1.echo-sdk-ams.app.bd304b90-xxxx-xxxx-xxxx-xxxxd4772bab"
+    },
+    "attributes": {},
+    "user": {
+      "userId": "amzn1.ask.account.XXXXXX"
+    },
+    "new": true
+  },
+  "request": {
+    "type": "IntentRequest",
+    "requestId": "EdwRequestId.b851ed18-2ca8-xxxx-xxxx-cca3f2b521e4",
+    "timestamp": "2016-07-05T15:27:34Z",
+    "intent": {
+      "name": "GetTrainTimes",
+      "slots": {
+        "Station": {
+          "name": "Station",
+          "value": "Balboa Park"
+        }
+      }
+    },
+    "locale": "en-US"
+  },
+  "version": "1.0"
+}
+
