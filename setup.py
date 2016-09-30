@@ -3,10 +3,10 @@ from distutils.core import setup
 
 setup(
     name='LambdaServer',
-    version='0.2',
+    version='0.3',
     packages=['LambdaServer'],
-    scripts=['bin/lambdapy'],
-    url='https://github.com/bespoken/PythonLambdaServer',
+    scripts=['bin/bstpy'],
+    url='https://github.com/bespoken/bstpy',
     license='MIT',
     author='OpenDog',
     author_email='bela@xappmedia.com',
