@@ -80,17 +80,16 @@ def run(lambda_path, server_class=HTTPServer, port=10000):
             sys.exit(1)
 
     class S(BaseHTTPRequestHandler):
-        def _set_headers(self):
+        def _set_headers(self, output_string):
             self.send_response(200)
             self.send_header('Content-Type', 'application/json')
+            self.send_header('Content-Length', str(len(output_string)))
             self.end_headers()
 
         def do_POST(self):
-            self._set_headers()
-
             data_string = self.rfile.read(int(self.headers['Content-Length']))
 
-            print("===> {}".format(data_string))
+            print("==> {}".format(data_string))
 
             data = simplejson.loads(data_string)
 
@@ -107,6 +106,7 @@ def run(lambda_path, server_class=HTTPServer, port=10000):
                 }
 
             return_value = simplejson.dumps(r, indent=4 * ' ')
+            self._set_headers(return_value);
 
             self.wfile.write(return_value)
             self.wfile.close()
