@@ -3,9 +3,9 @@ from distutils.core import setup
 
 setup(
     name='LambdaServer',
-    version='0.1',
+    version='0.2',
     packages=['LambdaServer'],
-    scripts=['bin/LambdaServer'],
+    scripts=['bin/lambdapy'],
     url='https://github.com/bespoken/PythonLambdaServer',
     license='MIT',
     author='OpenDog',
