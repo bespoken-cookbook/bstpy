@@ -46,7 +46,7 @@ optional arguments:
 ### Try the example lambda in the project
 
 From the example folder, run:
-`LambdaServer TestSkill.example_handler`
+`lambdapy TestSkill.example_handler`
 
 You should see output similar to the following:
 ```
@@ -64,7 +64,7 @@ Note: You need to have curl installed for this.
 
 #### What's happening?
 
-In this example, `LambdaServer`:
+In this example, `lambdapy`:
   1. Loads the `example_handler` function from the `TestSkill` module (file in this case).
   1. Starts a simple http server on port 8000 and starts listening for POST request with json bodies (events)
   1. Curl will post the content of the event.json file
