@@ -2,10 +2,12 @@
 
 from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
 from importlib import import_module
+import os
 import sys
 import traceback
 import simplejson
 import pkg_resources  # part of setuptools
+import getopt
 
 sys.path.append('.')
 
@@ -15,17 +17,51 @@ __description__ = 'A local http server that exposes an AWS lambda.'
 version = pkg_resources.require("LambdaServer")[0].version
 
 
-def main():
-    from sys import argv
+def main(argv):
+    import time
+    import getopt
 
-    if 2 <= len(argv) <= 3:
-        if len(argv) == 3:
-            run(argv[1], port=int(argv[2]))
+    server_port = 10000
+    lambda_path = ''
+
+    usage = 'Usage: bstpy -l <lambda-path> -p <port> -t <timezone>'
+
+    try:
+        opts, args = getopt.getopt(argv, "hl:p:t:")
+    except getopt.GetoptError as err:
+        print str(err)
+        print usage
+        sys.exit(2)
+
+    for opt, arg in opts:
+        if opt == '-h':
+            print usage
+            sys.exit()
+        elif opt in ("-l", "--lambda"):
+            lambda_path = arg
+        elif opt in ("-p", "--port"):
+            try:
+                server_port=int(arg)
+            except ValueError:
+                print "Invalid port: {}".format(server_port)
+                print usage
+                sys.exit(3)
+        elif opt in ("-t", "--timezone"):
+            os.environ['TZ'] = arg
+            time.tzset()
         else:
-            run(argv[1])
+            assert False, "unhandled option"
+
+    if lambda_path == '':
+        print "Lambda path is mandatory!"
+        print usage
+        sys.exit()
     else:
-        print("Python Lambda Server {}".format(version))
-        print("Usage lambda-path [http-port]")
+        print "Lambda path: {}".format(lambda_path)
+
+    print "Current time is {}".format(time.strftime('%X %x %Z'))
+
+    run(lambda_path, port=server_port)
 
 
 def run(lambda_path, server_class=HTTPServer, port=10000):
