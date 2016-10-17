@@ -7,7 +7,6 @@ import sys
 import traceback
 import simplejson
 import pkg_resources  # part of setuptools
-import getopt
 
 sys.path.append('.')
 
@@ -23,18 +22,19 @@ def main(argv):
 
     server_port = 10000
     lambda_path = ''
+    timezone = 'UTC'
 
     usage = 'Usage: bstpy -l <lambda-path> -p <port> -t <timezone>'
 
     try:
-        opts, args = getopt.getopt(argv, "hl:p:t:")
+        opts, args = getopt.getopt(argv, "hl:p:t:v", ['help', 'lambda=', 'port=', 'timezone=', 'version'])
     except getopt.GetoptError as err:
         print str(err)
         print usage
         sys.exit(2)
 
     for opt, arg in opts:
-        if opt == '-h':
+        if opt in ("-h", "--help"):
             print usage
             sys.exit()
         elif opt in ("-l", "--lambda"):
@@ -47,10 +47,15 @@ def main(argv):
                 print usage
                 sys.exit(3)
         elif opt in ("-t", "--timezone"):
-            os.environ['TZ'] = arg
-            time.tzset()
+            timezone = arg
+        elif opt in ("-v", "--version"):
+            print("Python Lambda Server {}".format(version))
+            sys.exit()
         else:
             assert False, "unhandled option"
+
+    os.environ['TZ'] = timezone
+    time.tzset()
 
     if lambda_path == '':
         print "Lambda path is mandatory!"
@@ -153,7 +158,6 @@ def run(lambda_path, server_class=HTTPServer, port=10000):
 
     server_address = ('', port)
     httpd = server_class(server_address, S)
-    print("Python Lambda Server {}".format(version))
     print("Starting httpd on port " + str(port))
     httpd.serve_forever()
 
