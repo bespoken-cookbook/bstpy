@@ -32,15 +32,21 @@ Planned:
 ## Usage
 
 ```
-usage: lambda-path [http-port]
-
-positional argument:
-  lambda-path           An import path to your function, as you would give it
-                        to AWS: `module.function`.
-
-optional arguments:
-  http-port             The port you want to expose the lambda. The default is 10000.
+$ bstpy --help
+Usage: bstpy -l <lambda-path> -p <port> -t <timezone>
 ```
+
+The only mandatory paramater is -l (--lambda) to specify the lambda path. 
+
+Use -p (--port) to listen on another port. 
+
+Use -t (--timezone) to specify the timezone you want to run on. The default is UTC. 
+
+```
+$ bstpy -l foo -t US/Eastern
+```
+
+Yo can also use -h (--help) for help and -v (--version) for version.
 
 ## Quick Start
 
@@ -51,7 +57,8 @@ From the example folder, run:
 
 You should see output similar to the following:
 ```
-Python Lambda Server 0.3
+Lambda path: foo
+Current time is 14:04:42 10/17/16 UTC
 Starting httpd on port 10000
 ```
 
