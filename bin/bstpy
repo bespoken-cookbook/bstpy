@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import LambdaServer
+from sys import argv
 
 if __name__ == '__main__':
-    LambdaServer.main()
+    LambdaServer.main(argv[1:])
