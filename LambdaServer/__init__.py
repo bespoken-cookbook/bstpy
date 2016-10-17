@@ -21,13 +21,24 @@ def main(argv):
     import getopt
 
     server_port = 10000
-    lambda_path = ''
     timezone = 'UTC'
 
-    usage = 'Usage: bstpy -l <lambda-path> -p <port> -t <timezone>'
+    usage = 'Usage: bstpy <lambda-path> -p <port> -t <timezone>'
+
+    if len(argv) == 0:
+        print usage
+        sys.exit(2)
+
+    lambda_path = argv[0]
+
+    # Don't start with options
+
+    if lambda_path.startswith("-"):
+        print usage
+        sys.exit(2)
 
     try:
-        opts, args = getopt.getopt(argv, "hl:p:t:v", ['help', 'lambda=', 'port=', 'timezone=', 'version'])
+        opts, args = getopt.getopt(argv[1:], "hp:t:v", ['help', 'port=', 'timezone=', 'version'])
     except getopt.GetoptError as err:
         print str(err)
         print usage
@@ -37,8 +48,6 @@ def main(argv):
         if opt in ("-h", "--help"):
             print usage
             sys.exit()
-        elif opt in ("-l", "--lambda"):
-            lambda_path = arg
         elif opt in ("-p", "--port"):
             try:
                 server_port=int(arg)

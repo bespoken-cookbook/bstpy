@@ -33,10 +33,10 @@ Planned:
 
 ```
 $ bstpy --help
-Usage: bstpy -l <lambda-path> -p <port> -t <timezone>
+Usage: bstpy <lambda-path> -p <port> -t <timezone>
 ```
 
-The only mandatory paramater is -l (--lambda) to specify the lambda path. 
+The only mandatory paramater is the first parameter, the lambda path. 
 
 Use -p (--port) to listen on another port. 
 
