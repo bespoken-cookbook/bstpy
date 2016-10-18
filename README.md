@@ -75,7 +75,7 @@ Note: You need to have curl installed for this. Of course you can use your own f
 
 In this example, `bstpy`:
   1. Loads the `example_handler` function from the `TestSkill` module (file in this case).
-  1. Starts a simple http server on port 8000 and starts listening for POST request with json bodies (events)
+  1. Starts a simple http server on port 10000 and starts listening for POST request with json bodies (events)
   1. Curl will post the content of the event.json file
   1. LambdaServer calls the the lambda handler
   1. Returns the resulting json
