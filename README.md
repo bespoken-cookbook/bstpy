@@ -43,7 +43,7 @@ Use -p (--port) to listen on another port.
 Use -t (--timezone) to specify the timezone you want to run on. The default is UTC. 
 
 ```
-$ bstpy -l foo -t US/Eastern
+$ bstpy foo -t US/Eastern
 ```
 
 Yo can also use -h (--help) for help and -v (--version) for version.
