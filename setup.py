@@ -12,7 +12,7 @@ setup(
     author_email='bela@xappmedia.com',
     description='Python http server to expose an AWS lambda',
     install_requires=[
-        'simplejson'
+
       ],
 
 )

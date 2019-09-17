@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 
-from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
-from importlib import import_module
+from http.server import BaseHTTPRequestHandler, HTTPServer
+from importlib import import_module, reload
 import os
 import sys
 import traceback
-import simplejson
+import json
 import pkg_resources  # part of setuptools
 
 sys.path.append('.')
@@ -26,7 +26,7 @@ def main(argv):
     usage = 'Usage: bstpy <lambda-path> -p <port> -t <timezone>'
 
     if len(argv) == 0:
-        print usage
+        print(usage)
         sys.exit(2)
 
     lambda_path = argv[0]
@@ -34,26 +34,26 @@ def main(argv):
     # Don't start with options
 
     if lambda_path.startswith("-"):
-        print usage
+        print(usage)
         sys.exit(2)
 
     try:
         opts, args = getopt.getopt(argv[1:], "hp:t:v", ['help', 'port=', 'timezone=', 'version'])
     except getopt.GetoptError as err:
-        print str(err)
-        print usage
+        print(str(err))
+        print(usage)
         sys.exit(2)
 
     for opt, arg in opts:
         if opt in ("-h", "--help"):
-            print usage
+            print(usage)
             sys.exit()
         elif opt in ("-p", "--port"):
             try:
                 server_port=int(arg)
             except ValueError:
-                print "Invalid port: {}".format(server_port)
-                print usage
+                print("Invalid port: {}".format(server_port))
+                print(usage)
                 sys.exit(3)
         elif opt in ("-t", "--timezone"):
             timezone = arg
@@ -67,13 +67,13 @@ def main(argv):
     time.tzset()
 
     if lambda_path == '':
-        print "Lambda path is mandatory!"
-        print usage
+        print("Lambda path is mandatory!")
+        print(usage)
         sys.exit()
     else:
-        print "Lambda path: {}".format(lambda_path)
+        print("Lambda path: {}".format(lambda_path))
 
-    print "Current time is {}".format(time.strftime('%X %x %Z'))
+    print("Current time is {}".format(time.strftime('%X %x %Z')))
 
     run(lambda_path, port=server_port)
 
@@ -141,7 +141,7 @@ def run(lambda_path, server_class=HTTPServer, port=10000):
 
             print("==> {}".format(data_string))
 
-            data = simplejson.loads(data_string)
+            data = json.loads(data_string)
 
             # noinspection PyBroadException
             try:
@@ -155,11 +155,11 @@ def run(lambda_path, server_class=HTTPServer, port=10000):
                     'error': str(e)
                 }
 
-            return_value = simplejson.dumps(r, indent=4 * ' ')
+            return_value = json.dumps(r, indent=4 * ' ')
             self._set_headers(return_value);
 
-            self.wfile.write(return_value)
-            self.wfile.close()
+            self.wfile.write(bytes(return_value, encoding='utf8'))
+            #self.wfile.close()
 
             print("<=== {}".format(return_value))
 
